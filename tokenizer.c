@@ -33,7 +33,7 @@ int isWord(char **in, int index, int count){
 	return count;
 }
 
-//known to be a number, now check for isDigit, if not check for special 'x' and '.' as well as octals.
+//known to be a number, now check for isDigit, if not check for special 'x', 'e' and '.' as well as octals.
 int isNumber(char** in, int index, int count) {
 
 
@@ -105,7 +105,7 @@ int main(int argc, char **argv){
 
 	char **in = argv;
 
-	//incase that quations are not guaraanteed
+	//Check for more arguments as quotes are not guaranteed. 
 	for (int i = 1; i < argc; i++)
 	{
 
