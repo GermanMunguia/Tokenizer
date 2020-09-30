@@ -7,8 +7,7 @@
 
 //isWord should check for isAlpha and isDigit, anything else is a delimiter.
 //also account for all of the digits that were used for that word and return that number.
-int isWord(char **in, int index, int count)
-{
+int isWord(char **in, int index, int count){
 
 	printf("word: %c", in[index][count]);
 
@@ -34,8 +33,65 @@ int isWord(char **in, int index, int count)
 	return count;
 }
 
-int main(int argc, char **argv)
-{
+//known to be a number, now check for isDigit, if not check for special 'x' and '.' as well as octals.
+int isNumber(char** in, int index, int count) {
+
+
+	//if zero, check for octal 
+	if(in[index][count] == '0') {
+		printf("potential for octal\n");
+	}
+	//will hold the number until the token is finished. Not using a integer to account for leading zeros.
+	//account for enough mem to hold the entire length of the input.
+	char* temp =  malloc(sizeof(char)*strlen(in[index]));
+	//keep track of how many numbers are in the string. 
+	int tempIndex = 0; 
+	temp[tempIndex] = in[index][count];
+	tempIndex++; 
+	//printf("temp: %s\n", temp);
+	
+	count++; 
+	//check IsDigit in loop, keep track of the previous number values. 	
+	while(count < strlen(in[index])) {
+		//not a number, either number ends to becomes float/hex 
+		if(isdigit(in[index][count]) == 0) {
+			//float
+			if(in[index][count] == '.') {
+				//do something
+				break;
+				//return count;	
+			}
+			//float
+			if(in[index][count] == 'e' || in[index][count] == 'E') {
+				//do something
+				break;
+				//return count;
+			}
+			//hex
+			if(in[index][count] == 'x' || in[index][count] == 'X') {
+				//do something
+				break; 
+				//return count;
+			}
+			//if not then it is a delimiter, break to print the decimal. 
+			break;	
+			
+		}
+		//must be a number, add it to temp and keep scanning
+		temp[tempIndex] = in[index][count];
+		tempIndex++;
+		count++; 
+
+	}
+	
+	//No more argument after, must be a decimal
+	printf("Decimal: \"%s\"\n", temp); 
+
+	return count;
+}
+
+
+int main(int argc, char **argv){
 
 	//make sure to check for an appropriate number of arguments
 
@@ -70,6 +126,10 @@ int main(int argc, char **argv)
 			}
 
 			//if the first index is a digit, it is some type of number.
+			if(isdigit(in[i][count]) != 0) {
+				count = isNumber(in, i, count);
+				continue;
+			}
 
 			//if its not a number or letter, then all types of symbols have to be checked.
 
