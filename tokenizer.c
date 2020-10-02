@@ -45,8 +45,8 @@ int isNumber(char** in, int index, int count) {
 		isOctal = 1; 
 	}
 	//will hold the number until the token is finished. Not using a integer to account for leading zeros.
-	//account for enough mem to hold the entire length of the input.
-	char* temp =  malloc(sizeof(char)*strlen(in[index]));
+	//account for enough mem to hold the entire length of the input minus the count to minimize space.. 
+	char* temp =  malloc(sizeof(char)* (strlen(in[index]) - count ));
 	//keep track of how many numbers are in the string. 
 	int tempIndex = 0; 
 	temp[tempIndex] = in[index][count];
