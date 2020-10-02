@@ -9,7 +9,7 @@
 //also account for all of the digits that were used for that word and return that number.
 int isWord(char **in, int index, int count){
 
-	printf("word: %c", in[index][count]);
+	printf("word: \"%c", in[index][count]);
 
 	//printf("strlen > count:  %ld\n", strlen(in[index]));
 
@@ -29,17 +29,19 @@ int isWord(char **in, int index, int count){
 			break;
 		}
 	}
-
+	printf("\"");
 	return count;
 }
 
 //known to be a number, now check for isDigit, if not check for special 'x', 'e' and '.' as well as octals.
 int isNumber(char** in, int index, int count) {
 
+	int isOctal = 0;
+	int isHex = 0; 
 
 	//if zero, check for octal 
 	if(in[index][count] == '0') {
-		printf("potential for octal\n");
+		isOctal = 1; 
 	}
 	//will hold the number until the token is finished. Not using a integer to account for leading zeros.
 	//account for enough mem to hold the entire length of the input.
@@ -48,44 +50,93 @@ int isNumber(char** in, int index, int count) {
 	int tempIndex = 0; 
 	temp[tempIndex] = in[index][count];
 	tempIndex++; 
-	//printf("temp: %s\n", temp);
 	
 	count++; 
 	//check IsDigit in loop, keep track of the previous number values. 	
 	while(count < strlen(in[index])) {
-		//not a number, either number ends to becomes float/hex 
+		//not a number, either number ends or becomes float/hex 
 		if(isdigit(in[index][count]) == 0) {
 			//float
 			if(in[index][count] == '.') {
 				//do something
 				break;
+				//print
 				//return count;	
 			}
-			//float
-			if(in[index][count] == 'e' || in[index][count] == 'E') {
-				//do something
-				break;
-				//return count;
+		
+
+			//it is a letter between a-f and it is known to be a hex, then add it to temp. 
+			if(isHex == 1) {
+				//A-F
+				if(in[index][count] <= 70 && in[index][count] >= 65) {
+					temp[tempIndex] = in[index][count];
+					tempIndex++;
+					count++;
+					continue;
+				}
+
+				//a-f
+				if(in[index][count] <= 102 && in[index][count] >= 97) {   
+					temp[tempIndex] = in[index][count];
+					tempIndex++;
+					count++;
+					continue; 
+				}
+				
+
+			
 			}
+
 			//hex
 			if(in[index][count] == 'x' || in[index][count] == 'X') {
-				//do something
-				break; 
-				//return count;
+				//in order for to be hex it must have 0x, it there was a zero then isOctal would be == 1. 
+				if(isOctal == 1) {
+					isHex = 1; 
+					//it is no longer octal
+					isOctal = 0;
+				        //edit the string
+					temp[tempIndex] = in[index][count]; 
+					tempIndex++;
+					count++;
+					continue;
+				}
+				//it is not an octal, and the number is finished, with a word being next. 
+					break;
+			
 			}
+
 			//if not then it is a delimiter, break to print the decimal. 
 			break;	
 			
+		}	
+		//it is a number
+		else{
+			//check it is octal
+			if((in[index][count] - 48) > 7) {
+				isOctal = 0; 
+			}
 		}
+
 		//must be a number, add it to temp and keep scanning
 		temp[tempIndex] = in[index][count];
 		tempIndex++;
 		count++; 
 
 	}
-	
+
+	if(isHex == 1) {
+		printf("hexadecimal integer: \"%s\"\n", temp);
+		return count; 
+	}
+
+	//check for octal boolean 	
+	if(isOctal == 1) {
+		printf("octal integer: \"%s\"\n", temp);
+		return count; 
+	}
+
 	//No more argument after, must be a decimal
-	printf("Decimal: \"%s\"\n", temp); 
+	printf("decimal integer: \"%s\"\n", temp); 
 
 	return count;
 }
