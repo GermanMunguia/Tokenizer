@@ -38,6 +38,7 @@ int isNumber(char** in, int index, int count) {
 
 	int isOctal = 0;
 	int isHex = 0; 
+	int isFloat = 0; 
 
 	//if zero, check for octal 
 	if(in[index][count] == '0') {
@@ -56,14 +57,68 @@ int isNumber(char** in, int index, int count) {
 	while(count < strlen(in[index])) {
 		//not a number, either number ends or becomes float/hex 
 		if(isdigit(in[index][count]) == 0) {
-			//float
+
+			//only floats can have contain a period, if its not a hex already, it is automatically a float since there is already a number behind it. 
 			if(in[index][count] == '.') {
-				//do something
-				break;
-				//print
-				//return count;	
+
+				//once something is set as Hex is cannot also be a float. Once it is a float is also cannot have a second period..
+				if(isHex == 1 || isFloat > 0) {
+					break; 
+				}
+
+				//update float/octal flags
+				isFloat = 1;
+			       	isOctal = 0; 
+		
+				temp[tempIndex] = in[index][count]; 
+				tempIndex++;
+				count++;
+				continue; 
 			}
 		
+			//if it is a float, it has possible e and - + chars, once an e is added change float to 2 to signifty that no more e's can be added.  
+			if(isFloat == 1) {
+				//check if the non-number is an e.
+				if(in[index][count] == 'e' || in[index][count] == 'E') {
+					//before adding the e, make sure it has valid chars after, numbers with possiblity of a + or _. 	
+			
+					//there is nothing after the e therefore not part of the float. 
+					if(strlen(in[index]) == count+1) {
+						break; 
+					}
+
+					//check for a sign and add it if there is one with a valid format
+					if(strlen(in[index]) >= count+2) {
+						puts("A");
+						//check for sign
+						if(in[index][count+1] == '+' || in[index][count+1] == '-') {
+							//check for a number after the sign
+							puts("b"); 
+							if(isdigit(in[index][count+2])) {
+								//add both the e and the sign
+								temp[tempIndex] = in[index][count];
+								temp[tempIndex+1] = in[index][count+1];
+								tempIndex += 2;
+								count += 2;
+								
+								isFloat = 2; 
+								continue;
+							}
+						}	
+					}
+
+					//make sure the number after the e is a digit before adding, already checked bounds
+					if(!isdigit(in[index][count+1])) {
+						break;	
+					}
+
+					temp[tempIndex] = in[index][count]; 
+					tempIndex++;
+					count++;
+					isFloat = 2;
+					continue; 
+				}	
+			}
 
 			//it is a letter between a-f and it is known to be a hex, then add it to temp. 
 			if(isHex == 1) {
@@ -81,10 +136,7 @@ int isNumber(char** in, int index, int count) {
 					tempIndex++;
 					count++;
 					continue; 
-				}
-				
-
-			
+				}	
 			}
 
 			//hex
@@ -116,20 +168,25 @@ int isNumber(char** in, int index, int count) {
 				isOctal = 0; 
 			}
 		}
-
 		//must be a number, add it to temp and keep scanning
 		temp[tempIndex] = in[index][count];
 		tempIndex++;
-		count++; 
+		count++;
 
 	}
+	//check float flag
+	if(isFloat == 1 || isFloat == 2) {
+		printf("float: \"%s\"\n", temp);
+		return count;
+	}
 
+	//check for hex flag
 	if(isHex == 1) {
 		printf("hexadecimal integer: \"%s\"\n", temp);
 		return count; 
 	}
 
-	//check for octal boolean 	
+	//check for octal flag 	
 	if(isOctal == 1) {
 		printf("octal integer: \"%s\"\n", temp);
 		return count; 
