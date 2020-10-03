@@ -207,19 +207,51 @@ int isNumber(char** in, int index, int count) {
 	return count;
 }
 
+//test for each operator, check for out of bounds when testing operators longer than 1 char. 
+int isOperator(char **in, int index, int count) {
+	//check for + and all operators that being with it
+	if(in[index][count] == '+') {
+		//could be longer, += or ++, check for out of bounds first 
+		if(strlen(in[index]) >= count +1) {
+			//++ is longer therefore its printed over +
+			if(in[index][count+1] == '+') {
+				printf("increment: \"++\"\n");
+				count += 2; 
+				return count; 
+			}
+
+			if(in[index][count+1] == '=') {
+				printf("increment: \"+=\"\n");
+				count += 2; 
+				return count; 
+			}
+		}
+		//if not then it must be just +
+		printf("increment: \"+\"\n");
+		count++; 
+		return count; 
+	}
+
+	//check for ...
+
+	
+
+
+
+	//if not found, then it is not in RefCard and it is ignored. 
+	count++;
+	return count; 
+}
+
 
 int main(int argc, char **argv){
 
-	//make sure to check for an appropriate number of arguments
-
-
-	printf("\n\nargc: %d\n", argc);
-	printf("arguments: %d\n", argc - 1);
-
-	for (int i = 1; i < argc; i++)
-	{
-		printf(" %s     len: %ld \n\n\n", argv[i], strlen(argv[i]));
-	}
+//	printf("\n\nargc: %d\n", argc);
+//	printf("arguments: %d\n", argc - 1);
+//	for (int i = 1; i < argc; i++)
+//	{
+//		printf(" %s     len: %ld \n\n\n", argv[i], strlen(argv[i]));
+//	}
 
 	char **in = argv;
 
@@ -251,10 +283,9 @@ int main(int argc, char **argv){
 				continue;
 			}
 
-			//if its not a number or letter, then all types of symbols have to be checked.
-			//this print is only temporary, will be removed once operator part has been added \/
-			printf("undefined: %c\n", in[i][count]);
-			count++;
+			//if its not a number or letter, then all types of symbols have to be checked. If its not in RefCard then it is tossed. 
+			count = isOperator(in,i,count); 
+
 		}
 		//if the for loop triggers a second time it is automatically a new delimiter
 	}
