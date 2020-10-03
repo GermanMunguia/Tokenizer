@@ -3,8 +3,6 @@
 #include <string.h>
 #include <ctype.h>
 
-//in
-
 //isWord should check for isAlpha and isDigit, anything else is a delimiter.
 //also account for all of the digits that were used for that word and return that number.
 int isWord(char **in, int index, int count){
@@ -45,8 +43,8 @@ int isNumber(char** in, int index, int count) {
 		isOctal = 1; 
 	}
 	//will hold the number until the token is finished. Not using a integer to account for leading zeros.
-	//account for enough mem to hold the entire length of the input minus the count to minimize space.. 
-	char* temp =  malloc(sizeof(char)* (strlen(in[index]) - count ));
+	//account for enough mem to hold the entire length of the input.
+	char* temp =  malloc(sizeof(char)*(strlen(in[index])));
 	//keep track of how many numbers are in the string. 
 	int tempIndex = 0; 
 	temp[tempIndex] = in[index][count];
@@ -64,6 +62,14 @@ int isNumber(char** in, int index, int count) {
 				//once something is set as Hex is cannot also be a float. Once it is a float is also cannot have a second period..
 				if(isHex == 1 || isFloat > 0) {
 					break; 
+				}
+
+				//make sure there is a number after the period in order for it to be a valid float.
+				if(strlen(in[index]) == count+1) {
+					break;
+				}
+				if(!isdigit(in[index][count+1])) {
+					break;
 				}
 
 				//update float/octal flags
@@ -89,11 +95,9 @@ int isNumber(char** in, int index, int count) {
 
 					//check for a sign and add it if there is one with a valid format
 					if(strlen(in[index]) >= count+2) {
-						puts("A");
 						//check for sign
 						if(in[index][count+1] == '+' || in[index][count+1] == '-') {
 							//check for a number after the sign
-							puts("b"); 
 							if(isdigit(in[index][count+2])) {
 								//add both the e and the sign
 								temp[tempIndex] = in[index][count];
@@ -203,6 +207,7 @@ int main(int argc, char **argv){
 
 	//make sure to check for an appropriate number of arguments
 
+
 	printf("\n\nargc: %d\n", argc);
 	printf("arguments: %d\n", argc - 1);
 
@@ -223,6 +228,10 @@ int main(int argc, char **argv){
 
 			//check for any delimiter that is not part of any token type.
 			//this includes white spaces, newlines...
+			if(isspace(in[i][count]) != 0) {
+				count++;
+				continue; 	
+			}
 
 			//if the first index is a letter, it is a word.
 			if (isalpha(in[i][count]) != 0)
