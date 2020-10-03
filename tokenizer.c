@@ -209,6 +209,7 @@ int isNumber(char** in, int index, int count) {
 
 //test for each operator, check for out of bounds when testing operators longer than 1 char. 
 int isOperator(char **in, int index, int count) {
+
 	//check for + and all operators that being with it
 	if(in[index][count] == '+') {
 		//could be longer, += or ++, check for out of bounds first 
@@ -219,18 +220,85 @@ int isOperator(char **in, int index, int count) {
 				count += 2; 
 				return count; 
 			}
-
+			//+=
 			if(in[index][count+1] == '=') {
-				printf("increment: \"+=\"\n");
+				printf("plus equals: \"+=\"\n");
 				count += 2; 
 				return count; 
 			}
 		}
 		//if not then it must be just +
-		printf("increment: \"+\"\n");
+		printf("addition: \"+\"\n");
 		count++; 
 		return count; 
 	}
+
+	//check for < and all operators that being with it
+	if(in[index][count] == '<') {
+		//could be longer up the 3,  << <= <<= 
+		if(strlen(in[index]) >= count +1) {
+			//<< is longer than <
+			if(in[index][count+1] == '<') {
+				//check if there is enough space
+				if(strlen(in[index]) >= count+2) {
+					//<<= is longer than <<
+					if(in[index][count+2] == '=') {
+						printf("shift left equals: \"<<=\"\n");
+						count += 3; 
+						return count; 		
+					}
+				}
+				
+				printf("shift left: \"<<\"\n");
+				count += 2; 
+				return count; 
+			}
+			//<=
+			if(in[index][count+1] == '=') {
+				printf("less that or equal test: \"<=\"\n");
+				count += 2; 
+				return count; 
+			}
+		}
+		//if not then it must be just <
+		printf("less than test: \"<\"\n");
+		count++; 
+		return count; 
+	}
+
+	//check for > and all operators that being with it
+	if(in[index][count] == '>') {
+		//could be longer up the 3,  >> >= >>= 
+		if(strlen(in[index]) >= count +1) {
+			//<< is longer than <
+			if(in[index][count+1] == '>') {
+				//check if there is enough space
+				if(strlen(in[index]) >= count+2) {
+					//>>= is longer than >>
+					if(in[index][count+2] == '=') {
+						printf("shift right equals: \">>=\"\n");
+						count += 3; 
+						return count; 		
+					}
+				}
+				
+				printf("shift right: \">>\"\n");
+				count += 2; 
+				return count; 
+			}
+			//>=
+			if(in[index][count+1] == '=') {
+				printf("greater that or equal test: \">=\"\n");
+				count += 2; 
+				return count; 
+			}
+		}
+		//if not then it must be just >
+		printf("greater than test: \">\"\n");
+		count++; 
+		return count; 
+	}
+
 
 	//check for ...
 
