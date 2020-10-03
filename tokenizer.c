@@ -6,28 +6,33 @@
 //isWord should check for isAlpha and isDigit, anything else is a delimiter.
 //also account for all of the digits that were used for that word and return that number.
 int isWord(char **in, int index, int count){
-
-	printf("word: \"%c", in[index][count]);
-
-	//printf("strlen > count:  %ld\n", strlen(in[index]));
-
+	//create a temporary string to hold each character in a word to later print. 
+	char* temp =  malloc(sizeof(char)*(strlen(in[index])));
+	int tempIndex = 0; 
+	temp[tempIndex] = in[index][count]; 
 	count++;
-	//int tokenLen = 0;
+	tempIndex++;
+
 	while (count < strlen(in[index]))
 	{
 		//since it is known to be a word, any letter or number after it is part of the word.
 		if (isalpha(in[index][count]) || isdigit(in[index][count]))
 		{
-			printf("%c", in[index][count]);
+			temp[tempIndex] = in[index][count]; 
+			tempIndex++;
 			count++;
+			continue; 
 		}
-
-		else
-		{
 			break;
-		}
 	}
-	printf("\"");
+
+	//test the word for sizeof operator
+	if(strcmp(temp, "sizeof") == 0) {
+		printf("sizeof: \"%s\"\n", temp);
+		return count;
+	}
+
+	printf("word: \"%s\"\n", temp);
 	return count;
 }
 
@@ -196,7 +201,7 @@ int isNumber(char** in, int index, int count) {
 		return count; 
 	}
 
-	//No more argument after, must be a decimal
+	//No more arguments after, must be a decimal
 	printf("decimal integer: \"%s\"\n", temp); 
 
 	return count;
@@ -236,9 +241,7 @@ int main(int argc, char **argv){
 			//if the first index is a letter, it is a word.
 			if (isalpha(in[i][count]) != 0)
 			{
-				//printf("word: %c\n", in[i][count]);
 				count = isWord(in, i, count);
-				printf("\n");
 				continue;
 			}
 
@@ -249,7 +252,7 @@ int main(int argc, char **argv){
 			}
 
 			//if its not a number or letter, then all types of symbols have to be checked.
-
+			//this print is only temporary, will be removed once operator part has been added \/
 			printf("undefined: %c\n", in[i][count]);
 			count++;
 		}
