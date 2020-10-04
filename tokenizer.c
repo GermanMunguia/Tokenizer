@@ -448,7 +448,7 @@ int isOperator(char **in, int index, int count) {
 			if (strlen(in[index]) >= count + 1) {
 				// %  is printed over =
 				if (in[index][count + 1] == '=') {
-					printf("mod equals: \"%=\"\n");
+					printf("mod equals: \"%%=\"\n");
 					count += 2;
 					return count;
 				}
@@ -474,47 +474,47 @@ int isOperator(char **in, int index, int count) {
 
 		//check for any other single character operator
 		if (in[index][count] == '(') {
-			printf("Left Parenthesis: \"%(\"\n", temp);
+			printf("Left Parenthesis: \"(\"\n");
 			count++;
 			return count;
 		}
 		if (in[index][count] == ')') {
-			printf("Right Parenthesis: \"%)\"\n", temp);
+			printf("Right Parenthesis: \")\"\n");
 			count++;
 			return count;
 		}
 		if (in[index][count] == '[') {
-			printf("Right Bracket: \"%[\"\n", temp);
+			printf("Right Bracket: \"[\"\n");
 			count++;
 			return count;
 		}
 		if (in[index][count] == ']') {
-			printf("Left Bracket: \"%]\"\n", temp);
+			printf("Left Bracket: \"]\"\n");
 			count++;
 			return count;
 		}
 		if (in[index][count] == '.') {
-			printf("Structure Member: \"%.\"\n", temp);
+			printf("Structure Member: \".\"\n");
 			count++;
 			return count;
 		}
 		if (in[index][count] == ',') {
-			printf("comma: \"%,\"\n", temp);
+			printf("comma: \",\"\n");
 			count++;
-				return count;
+			return count;
 		}
 		if (in[index][count] == '~') {
-			printf("1s complement: \"%~\"\n", temp);
+			printf("1s complement: \"~\"\n");
 			count++;
 			return count;
 		}
 		if (in[index][count] == ':') {
-			printf("conditional false: \"%:\"\n", temp);
+			printf("conditional false: \":\"\n");
 			count++;
 			return count;
 		}
 		if (in[index][count] == '?') {
-			printf("conditional true: \"%?\"\n", temp);
+			printf("conditional true: \"?\"\n");
 			count++;
 			return count;
 		}
