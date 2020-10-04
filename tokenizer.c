@@ -150,8 +150,8 @@ int isNumber(char** in, int index, int count) {
 
 			//hex
 			if(in[index][count] == 'x' || in[index][count] == 'X') {
-				//in order for to be hex it must have 0x, it there was a zero then isOctal would be == 1. 
-				if(isOctal == 1) {
+				//in order for to be hex it must have 0x, if there was a zero then isOctal would be == 1. 
+				if(isOctal == 1 && tempIndex == 1) {
 					isHex = 1; 
 					//it is no longer octal
 					isOctal = 0;
