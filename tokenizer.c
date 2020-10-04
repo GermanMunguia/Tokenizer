@@ -300,7 +300,7 @@ int isOperator(char **in, int index, int count) {
 	}
 
 
-	//check for - and all operators that being with it
+		//check for - and all operators that being with it
 		if (in[index][count] == '-') {
 			//could be longer, -= or --, check for out of bounds first 
 			if (strlen(in[index]) >= count + 1) {
@@ -324,7 +324,7 @@ int isOperator(char **in, int index, int count) {
 				}
 			}
 			//if not then it must be just -
-			printf("subtraction: \"-\"\n");
+			printf("minus/subtract operator: \"-\"\n");
 			count++;
 			return count;
 
@@ -397,7 +397,7 @@ int isOperator(char **in, int index, int count) {
 		if (in[index][count] == '^') {
 			//could be longer (^=), check for out of bounds first 
 			if (strlen(in[index]) >= count + 1) {
-				//^= is longer therefore its printed over =
+				//^= is longer therefore its printed over ^
 				if (in[index][count + 1] == '=') {
 					printf("bitwise XOR equals: \"^=\"\n");
 					count += 2;
@@ -405,7 +405,7 @@ int isOperator(char **in, int index, int count) {
 				}
 			}
 			//if not then it must be just ^
-			printf("biwise XOR: \"^\"\n");
+			printf("bitwise XOR: \"^\"\n");
 			count++;
 			return count;
 		}
@@ -413,7 +413,7 @@ int isOperator(char **in, int index, int count) {
 		if (in[index][count] == '*') {
 			//could be longer (*=), check for out of bounds first 
 			if (strlen(in[index]) >= count + 1) {
-				//*= is longer therefore its printed over =
+				//*= is longer therefore its printed over *
 				if (in[index][count + 1] == '=') {
 					printf("times equals: \"*=\"\n");
 					count += 2;
@@ -421,7 +421,7 @@ int isOperator(char **in, int index, int count) {
 				}
 			}
 			//if not then it must be just *
-			printf("multiply: \"*\"\n");
+			printf("multiply/dereference operator: \"*\"\n");
 			count++;
 			return count;
 		}
@@ -429,7 +429,7 @@ int isOperator(char **in, int index, int count) {
 		if (in[index][count] == '/') {
 			//could be longer (/=), check for out of bounds first 
 			if (strlen(in[index]) >= count + 1) {
-				// /= is longer therefore its printed over =
+				// /= is longer therefore its printed over /
 				if (in[index][count + 1] == '=') {
 					printf("divide equals: \"/=\"\n");
 					count += 2;
@@ -437,7 +437,7 @@ int isOperator(char **in, int index, int count) {
 				}
 			}
 			//if not then it must be just /
-			printf("divide: \"/\"\n");
+			printf("division: \"/\"\n");
 			count++;
 			return count;
 		}
@@ -446,7 +446,7 @@ int isOperator(char **in, int index, int count) {
 		if (in[index][count] == '%') {
 			// check for out of bounds first 
 			if (strlen(in[index]) >= count + 1) {
-				// %  is printed over =
+				//%= is printed
 				if (in[index][count + 1] == '=') {
 					printf("mod equals: \"%%=\"\n");
 					count += 2;
@@ -459,7 +459,7 @@ int isOperator(char **in, int index, int count) {
 		if (in[index][count] == '!') {
 			//could be longer (!=), check for out of bounds first 
 			if (strlen(in[index]) >= count + 1) {
-				//!= is longer therefore its printed over =
+				//!= is longer therefore its printed over !
 				if (in[index][count + 1] == '=') {
 					printf("inequality test: \"!=\"\n");
 					count += 2;
@@ -474,27 +474,27 @@ int isOperator(char **in, int index, int count) {
 
 		//check for any other single character operator
 		if (in[index][count] == '(') {
-			printf("Left Parenthesis: \"(\"\n");
+			printf("left parenthesis: \"(\"\n");
 			count++;
 			return count;
 		}
 		if (in[index][count] == ')') {
-			printf("Right Parenthesis: \")\"\n");
+			printf("right parenthesis: \")\"\n");
 			count++;
 			return count;
 		}
 		if (in[index][count] == '[') {
-			printf("Right Bracket: \"[\"\n");
+			printf("left bracket: \"[\"\n");
 			count++;
 			return count;
 		}
 		if (in[index][count] == ']') {
-			printf("Left Bracket: \"]\"\n");
+			printf("right bracket: \"]\"\n");
 			count++;
 			return count;
 		}
 		if (in[index][count] == '.') {
-			printf("Structure Member: \".\"\n");
+			printf("structure member: \".\"\n");
 			count++;
 			return count;
 		}
@@ -518,15 +518,6 @@ int isOperator(char **in, int index, int count) {
 			count++;
 			return count;
 		}
-
-	//}
-
-	
-	//check for ...
-
-	
-
-
 
 	//if not found, then it is not in RefCard and it is ignored. 
 	count++;
