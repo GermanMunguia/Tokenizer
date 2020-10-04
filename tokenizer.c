@@ -527,13 +527,7 @@ int isOperator(char **in, int index, int count) {
 
 int main(int argc, char **argv){
 
-//	printf("\n\nargc: %d\n", argc);
-//	printf("arguments: %d\n", argc - 1);
-//	for (int i = 1; i < argc; i++)
-//	{
-//		printf(" %s     len: %ld \n\n\n", argv[i], strlen(argv[i]));
-//	}
-
+	//rename to in for input
 	char **in = argv;
 
 	//Check for more arguments as quotes are not guaranteed. 
