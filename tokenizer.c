@@ -300,6 +300,228 @@ int isOperator(char **in, int index, int count) {
 	}
 
 
+	//check for - and all operators that being with it
+		if (in[index][count] == '-') {
+			//could be longer, -= or --, check for out of bounds first 
+			if (strlen(in[index]) >= count + 1) {
+				//-- is longer therefore its printed over -
+				if (in[index][count + 1] == '-') {
+					printf("decrement: \"--\"\n");
+					count += 2;
+					return count;
+				}
+				//-=
+				if (in[index][count + 1] == '=') {
+					printf("minus equals: \"-=\"\n");
+					count += 2;
+					return count;
+				}
+				//->
+				if (in[index][count + 1] == '>') {
+					printf("structure pointer: \"->\"\n");
+					count += 2;
+					return count;
+				}
+			}
+			//if not then it must be just -
+			printf("subtraction: \"-\"\n");
+			count++;
+			return count;
+
+
+		}
+		//check for & and all operators that being with it
+		if (in[index][count] == '&') {
+			//could be longer, &= or &&, check for out of bounds first 
+			if (strlen(in[index]) >= count + 1) {
+				//&& is longer therefore its printed over &
+				if (in[index][count + 1] == '&') {
+					printf("logical AND: \"&&\"\n");
+					count += 2;
+					return count;
+				}
+				//&=
+				if (in[index][count + 1] == '=') {
+					printf("bitwise AND equals: \"&=\"\n");
+					count += 2;
+					return count;
+				}
+			}
+			//if not then it must be just &
+			printf("AND/address operator: \"&\"\n");
+			count++;
+			return count;
+		}
+
+		//check for | and all operators that being with it
+		if (in[index][count] == '|') {
+			//could be longer, |= or ||, check for out of bounds first 
+			if (strlen(in[index]) >= count + 1) {
+				//|| is longer therefore its printed over |
+				if (in[index][count + 1] == '|') {
+					printf("logical OR: \"||\"\n");
+					count += 2;
+					return count;
+				}
+				//|=
+				if (in[index][count + 1] == '=') {
+					printf("bitwise OR equals: \"|=\"\n");
+					count += 2;
+					return count;
+				}
+			}
+			//if not then it must be just |
+			printf("bitwise OR: \"|\"\n");
+			count++;
+			return count;
+		}
+
+		//check for = and all operators that being with it
+		if (in[index][count] == '=') {
+			//could be longer (==), check for out of bounds first 
+			if (strlen(in[index]) >= count + 1) {
+				//== is longer therefore its printed over =
+				if (in[index][count + 1] == '=') {
+					printf("equality test: \"==\"\n");
+					count += 2;
+					return count;
+				}
+			}
+			//if not then it must be just =
+			printf("assignment: \"=\"\n");
+			count++;
+			return count;
+		}
+
+		//check for ^ and all operators that being with it
+		if (in[index][count] == '^') {
+			//could be longer (^=), check for out of bounds first 
+			if (strlen(in[index]) >= count + 1) {
+				//^= is longer therefore its printed over =
+				if (in[index][count + 1] == '=') {
+					printf("bitwise XOR equals: \"^=\"\n");
+					count += 2;
+					return count;
+				}
+			}
+			//if not then it must be just ^
+			printf("biwise XOR: \"^\"\n");
+			count++;
+			return count;
+		}
+		//check for * and all operators that being with it
+		if (in[index][count] == '*') {
+			//could be longer (*=), check for out of bounds first 
+			if (strlen(in[index]) >= count + 1) {
+				//*= is longer therefore its printed over =
+				if (in[index][count + 1] == '=') {
+					printf("times equals: \"*=\"\n");
+					count += 2;
+					return count;
+				}
+			}
+			//if not then it must be just *
+			printf("multiply: \"*\"\n");
+			count++;
+			return count;
+		}
+		//check for / and all operators that being with it
+		if (in[index][count] == '/') {
+			//could be longer (/=), check for out of bounds first 
+			if (strlen(in[index]) >= count + 1) {
+				// /= is longer therefore its printed over =
+				if (in[index][count + 1] == '=') {
+					printf("divide equals: \"/=\"\n");
+					count += 2;
+					return count;
+				}
+			}
+			//if not then it must be just /
+			printf("divide: \"/\"\n");
+			count++;
+			return count;
+		}
+
+		//check for % operator that being with it
+		if (in[index][count] == '%') {
+			// check for out of bounds first 
+			if (strlen(in[index]) >= count + 1) {
+				// %  is printed over =
+				if (in[index][count + 1] == '=') {
+					printf("mod equals: \"%=\"\n");
+					count += 2;
+					return count;
+				}
+			}
+
+		}
+		//check for ! and all operators that being with it
+		if (in[index][count] == '!') {
+			//could be longer (!=), check for out of bounds first 
+			if (strlen(in[index]) >= count + 1) {
+				//!= is longer therefore its printed over =
+				if (in[index][count + 1] == '=') {
+					printf("inequality test: \"!=\"\n");
+					count += 2;
+					return count;
+				}
+			}
+			//if not then it must be just !
+			printf("negate: \"!\"\n");
+			count++;
+			return count;
+		}
+
+		//check for any other single character operator
+		if (in[index][count] == '(') {
+			printf("Left Parenthesis: \"%(\"\n", temp);
+			count++;
+			return count;
+		}
+		if (in[index][count] == ')') {
+			printf("Right Parenthesis: \"%)\"\n", temp);
+			count++;
+			return count;
+		}
+		if (in[index][count] == '[') {
+			printf("Right Bracket: \"%[\"\n", temp);
+			count++;
+			return count;
+		}
+		if (in[index][count] == ']') {
+			printf("Left Bracket: \"%]\"\n", temp);
+			count++;
+			return count;
+		}
+		if (in[index][count] == '.') {
+			printf("Structure Member: \"%.\"\n", temp);
+			count++;
+			return count;
+		}
+		if (in[index][count] == ',') {
+			printf("comma: \"%,\"\n", temp);
+			count++;
+				return count;
+		}
+		if (in[index][count] == '~') {
+			printf("1s complement: \"%~\"\n", temp);
+			count++;
+			return count;
+		}
+		if (in[index][count] == ':') {
+			printf("conditional false: \"%:\"\n", temp);
+			count++;
+			return count;
+		}
+		if (in[index][count] == '?') {
+			printf("conditional true: \"%?\"\n", temp);
+			count++;
+			return count;
+		}
+
+	//}
+
+	
 	//check for ...
 
 	
